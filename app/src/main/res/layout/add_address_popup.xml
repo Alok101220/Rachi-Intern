@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolBar">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:id="@+id/back_from_add_address"
+            android:src="@drawable/icon_back"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_address_title"
+            android:text="Add address"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_address_main_container"
+        android:layout_below="@+id/toolBar"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Deliver to"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="14sp"-->
+<!--            android:layout_marginBottom="5dp"/>-->
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/address_username"-->
+<!--            android:background="@drawable/edittext_background"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Locality"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address_locality"
+            android:background="@drawable/edittext_background"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginEnd="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="5dp"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address_city"
+                    android:background="@drawable/edittext_background"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pincode"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="5dp"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address_pinCode"
+                    android:background="@drawable/edittext_background"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="State"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address_state"
+            android:background="@drawable/edittext_background"
+            android:maxEms="10"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone no."
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address_phoneNumber"
+            android:background="@drawable/edittext_background"
+            android:maxEms="10"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
+
+
+
+    </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_alignParentBottom="true">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/address_add_button"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Add"
+                android:visibility="visible"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/address_add_loading"
+                app:lottie_fileName="loading.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:paddingTop="15dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+
+</RelativeLayout>

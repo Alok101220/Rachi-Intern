@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="64dp"
+                android:layout_height="70dp"
+                android:id="@+id/cart_item_product_img"
+                android:src="@drawable/img1"
+                app:shapeAppearanceOverlay="@style/customShapableImage"
+                android:scaleType="centerCrop"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cart_item_product_name"
+                    android:text="Sample product name"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cart_item_product_price"
+                    android:text="$0000"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+
+                        android:background="@drawable/square_corner_background"
+                        android:padding="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Qty: "
+                            android:textSize="12sp"
+                            android:textColor="@color/black"/>
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cart_item_product_quantity"
+                            android:padding="0dp"/>
+                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:padding="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total: "
+                            android:textSize="12sp"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cart_item_totalPrice"
+                            android:padding="0dp"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:textColor="@color/base_color"
+                            android:layout_marginStart="5dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/remove_product_container"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp">
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cart_item_product_remove"
+                    android:backgroundTint="#E4DFF6"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="Remove"
+                    android:visibility="visible"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/cart_item_product_remove_loading"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_product_container"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:visibility="visible">
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cart_item_product_buy"
+                    android:gravity="center"
+                    android:text="Buy"
+                    android:visibility="visible"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/cart_item_product_buy_loading"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

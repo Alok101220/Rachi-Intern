@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".screen.fragment.RegistrationFragment"
+    android:padding="40dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/registration_main_container"
+        android:layout_gravity="center"
+        app:cardCornerRadius="15dp"
+        app:elevation="10dp"
+        app:strokeWidth="8dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="50dp"
+            android:padding="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_title"
+                android:layout_alignParentTop="true"
+                android:text="Your Store"
+                android:textStyle="bold"
+                android:textSize="26sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/login_subTitle"
+                android:text="Register yourself, to continue"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:layout_below="@id/registration_title"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_fullName_textLayout"
+                android:hint="Enter fullname">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registration_fullName_EditText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_email_textLayout"
+                android:hint="Enter email"
+                android:layout_below="@+id/registration_fullName_textLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registration_email_EditText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_password_textLayout"
+                android:hint="Enter password"
+                android:layout_below="@+id/registration_email_textLayout"
+                app:passwordToggleEnabled="true"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:id="@+id/registration_password_EditText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_confirmPassword_textLayout"
+                android:hint="Enter confirm password"
+                app:passwordToggleEnabled="true"
+                android:layout_below="@+id/registration_password_textLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:id="@+id/registration_confirmPassword_EditText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registration_button"
+                android:text="Register"
+                android:layout_below="@+id/registration_confirmPassword_textLayout"
+                android:layout_marginTop="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/registration_button"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Already registered? "
+                    android:textStyle="normal"
+                    android:layout_below="@+id/registration_button"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registration_to_login"
+                    android:text="Login"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/registration_button"
+                    />
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registration_loading"
+        app:lottie_fileName="loading.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+
+
+
+</RelativeLayout>

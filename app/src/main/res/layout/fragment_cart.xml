@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".screen.fragment.CartFragment"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar_container"
+        android:background="@color/base_color">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appBar"
+            android:minHeight="?attr/actionBarSize">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:text="My Cart"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_loading"
+        app:lottie_fileName="loading.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_main_container"
+        android:padding="10dp"
+        android:layout_below="@+id/appbar_container"
+        android:visibility="gone"
+        android:layout_above="@+id/bottom_container"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_address_container"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Deliver to: "
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/deliverTo_name"
+                            android:text="Alok Singh"
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=", "
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/deliverTo_pincode"
+                            android:text="486001"
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/full_address"
+                        android:maxLines="1"
+                        android:text="Janta college annantpur, Near sainik co ed school Rewa M.P."/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/change_address_button"
+                    android:text="Change"
+                    android:textColor="@color/base_color"
+                    android:background="@drawable/edittext_background"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_add_address"
+                android:text="Add address"
+                android:layout_gravity="center"
+                android:textColor="@color/base_color"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:visibility="gone"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_recyclerView"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/bottom_container"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="2dp"
+        android:background="#EFECFA">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove_product_container"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:visibility="visible"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_total_price_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Total: "/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_total_price"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=""
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/base_color"
+                android:layout_toEndOf="@+id/cart_total_price_title"
+                android:layout_marginStart="10dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_product_container"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:visibility="visible"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cart_buy_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Buy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="visible"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_product_loading"
+                app:lottie_fileName="loading.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:paddingTop="15dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
