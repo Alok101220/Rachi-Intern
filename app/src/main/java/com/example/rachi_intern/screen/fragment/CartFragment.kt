@@ -26,12 +26,15 @@ import com.example.rachi_intern.adapter.OrderSummaryAdapter
 import com.example.rachi_intern.dao.OrderProduct
 import com.example.rachi_intern.factory.AddressViewModelFactory
 import com.example.rachi_intern.factory.CartViewModelFactory
+import com.example.rachi_intern.factory.OrderViewModelFactory
 import com.example.rachi_intern.factory.ProductViewModelFactory
 import com.example.rachi_intern.roomDb.entities.Address
+import com.example.rachi_intern.roomDb.entities.Order
 import com.example.rachi_intern.roomDb.entities.Product
 import com.example.rachi_intern.roomDb.entities.User
 import com.example.rachi_intern.viewmodel.AddressViewModel
 import com.example.rachi_intern.viewmodel.CartViewModel
+import com.example.rachi_intern.viewmodel.OrderViewModel
 import com.example.rachi_intern.viewmodel.ProductViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -45,6 +48,7 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
 
     private lateinit var cartMainContainer: NestedScrollView
     private lateinit var cartLoading: LottieAnimationView
+    private lateinit var emptyCart: LottieAnimationView
     private lateinit var cartAddressContainer: LinearLayout
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var addAddress: MaterialButton
@@ -65,8 +69,10 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var productViewModel: ProductViewModel
     private lateinit var addressViewModel: AddressViewModel
+    private lateinit var orderViewModel: OrderViewModel
 
     private val productList: MutableList<Product> = mutableListOf()
+    private val orderedProducts: MutableList<Order> = mutableListOf()
 
     private var currentUser: User? = null
     private var currentAddress: Address? = null
@@ -96,11 +102,17 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
             requireActivity(),
             AddressViewModelFactory(requireContext())
         )[AddressViewModel::class.java]
+        orderViewModel = ViewModelProvider(
+            requireActivity(),
+            OrderViewModelFactory(requireContext())
+        )[OrderViewModel::class.java]
+
 
         Checkout.preload(requireContext())
 
         cartMainContainer = rootView.findViewById(R.id.cart_main_container)
         cartLoading = rootView.findViewById(R.id.cart_loading)
+        emptyCart=rootView.findViewById(R.id.cart_empty)
         cartAddressContainer = rootView.findViewById(R.id.cart_address_container)
         cartRecyclerView = rootView.findViewById(R.id.cart_recyclerView)
         addAddress = rootView.findViewById(R.id.cart_add_address)
@@ -148,8 +160,10 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
                     cartMainContainer.visibility = View.VISIBLE
 
                     if (cartItems.isNullOrEmpty()) {
-
+                        emptyCart.visibility=View.VISIBLE
                     } else {
+                        emptyCart.visibility=View.GONE
+
                         val productCounter = AtomicInteger(cartItems.size)
                         for (cartItem in cartItems) {
 
@@ -177,7 +191,9 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
         }
         cartItemAdapter.setOnRemoveItemClickListener(object :
             CartItemAdapter.OnRemoveItemClickListener {
-            override fun onRemoveItemClick(position: Int) {
+            override fun onRemoveItemClick(position: Int,quantity:String) {
+
+                totalPrice.text="₹${totalPrice.text.toString().substring(1).toDouble()-productList[position].productPrice.toDouble()*quantity.toInt()}"
                 cartViewModel.getCartItemByUserAndProduct(
                     currentUser!!.userId,
                     productList[position].productId
@@ -194,7 +210,7 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
         })
 
         cartItemAdapter.setOnBuyItemClickListener(object : CartItemAdapter.OnBuyItemClickListener {
-            override fun onBuyItemClick(position: Int, selectedQuantity: String) {
+            override fun onBuyItemClick(position: Int, quantity: String) {
 
                 if (currentAddress == null) {
                     Toast.makeText(requireContext(), "Enter address!", Toast.LENGTH_SHORT).show()
@@ -204,7 +220,7 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
                         productList[position],
                         currentAddress!!,
                         currentUser!!.userId,
-                        selectedQuantity.toInt()
+                        quantity.toInt()
                     )
                     openOrderSummary(listOf(orderItem))
                 }
@@ -218,9 +234,10 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
             if (currentAddress == null) {
                 Toast.makeText(requireContext(), "Enter address!", Toast.LENGTH_SHORT).show()
 
-            } else {
-
-
+            }else if(productList.isNullOrEmpty()){
+                Toast.makeText(requireContext(), "Nothing in cart!", Toast.LENGTH_SHORT).show()
+            }
+            else {
                 val orderProductList = mutableListOf<OrderProduct>()
                 val quantities = cartItemAdapter.getQuantities()
                 var i = 0
@@ -229,6 +246,17 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
                         OrderProduct(
                             product, currentAddress!!, currentUser!!.userId,
                             quantities[product.productId.toInt()].toString().toInt()
+                        )
+                    )
+                    orderedProducts.add(
+                        Order(
+                            0,
+                            currentUser!!.userId,
+                            product.productId,
+                            currentAddress!!.addressId,
+                            quantities[product.productId.toInt()].toString().toLong(),
+                            "Online",
+                            currentAddress!!.toString()
                         )
                     )
                     i = i + 1
@@ -368,45 +396,69 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
     }
 
     private fun startRazorpayPayment(amount: Double) {
-        val checkout = Checkout()
-
         try {
-            val options = JSONObject()
-            options.put("name", "Your Store")
-            options.put("description", "Payment for your order")
-            options.put("currency", "INR") // Change it based on your country
-            options.put("amount", amount * 100) // Amount in paise (e.g., 10000 paise = ₹100)
-
-            val prefill = JSONObject()
-            prefill.put("email", currentUser!!.email)
-            prefill.put("contact", currentAddress!!.phoneNumber)
-
-            options.put("prefill", prefill)
-
+            val options = prepareRazorpayOptions(amount)
+            val checkout = Checkout()
             checkout.setKeyID("rzp_test_ldre7oeTXdAMDW")
-
             checkout.open(requireActivity(), options)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
+    private fun prepareRazorpayOptions(amount: Double): JSONObject {
+        val options = JSONObject()
+        options.put("name", "Your Store")
+        options.put("description", "Payment for your order")
+        options.put("currency", "INR")
+        options.put("amount", amount * 100)
+
+        val prefill = JSONObject()
+        prefill.put("email", currentUser!!.email)
+        prefill.put("contact", currentAddress!!.phoneNumber)
+
+        options.put("prefill", prefill)
+
+        return options
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RAZOR_PAY_REQUEST_CODE) {
-            val outputResponse = data?.getStringExtra("response")
             if (resultCode == Activity.RESULT_OK) {
                 // Payment successful
+                val outputResponse = data?.getStringExtra("response")
+                handlePaymentSuccess(outputResponse)
 
+                for (order in orderedProducts) {
+                    orderViewModel.insertOrder(order)
+                }
 
-                Toast.makeText(requireContext(), "Payment Successful", Toast.LENGTH_SHORT).show()
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // Payment canceled by the user
+                handlePaymentCancelled()
             } else {
                 // Payment failed
-                Toast.makeText(requireContext(), "Payment Failed", Toast.LENGTH_SHORT).show()
+                handlePaymentFailed()
             }
         }
     }
 
+    private fun handlePaymentSuccess(response: String?) {
+        showToast("Payment Successful")
+    }
 
+    private fun handlePaymentCancelled() {
+        showToast("Payment Cancelled")
+    }
+
+    private fun handlePaymentFailed() {
+        showToast("Payment Failed")
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
 }

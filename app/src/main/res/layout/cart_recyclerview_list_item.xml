@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="#E4DFF6">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/cart_item_product_remove"
-                    android:backgroundTint="#E4DFF6"
+                    android:backgroundTint="@color/white"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:text="Remove"

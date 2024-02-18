@@ -1,4 +1,4 @@
-package com.example.rachi_intern
+package com.example.rachi_intern.screen
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rachi_intern.R
 import com.example.rachi_intern.adapter.OrderHistoryAdapter
 import com.example.rachi_intern.factory.OrderViewModelFactory
 import com.example.rachi_intern.factory.ProductViewModelFactory

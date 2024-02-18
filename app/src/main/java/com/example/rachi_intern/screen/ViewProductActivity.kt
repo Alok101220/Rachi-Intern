@@ -1,4 +1,4 @@
-package com.example.rachi_intern
+package com.example.rachi_intern.screen
 
 import android.content.Context
 import android.content.Intent
@@ -11,20 +11,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
+import com.example.rachi_intern.R
 import com.example.rachi_intern.factory.CartViewModelFactory
 import com.example.rachi_intern.factory.ProductViewModelFactory
 import com.example.rachi_intern.roomDb.entities.CartItem
 import com.example.rachi_intern.roomDb.entities.User
-import com.example.rachi_intern.screen.fragment.CartFragment
 import com.example.rachi_intern.screen.fragment.PREF_FILE_NAME
 import com.example.rachi_intern.viewmodel.CartViewModel
 import com.example.rachi_intern.viewmodel.ProductViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
-import org.w3c.dom.Text
 
 class ViewProductActivity : AppCompatActivity() {
 
@@ -105,7 +103,7 @@ class ViewProductActivity : AppCompatActivity() {
 
         addToCartButton.setOnClickListener {
             if(isAddedInCart){
-                val intent=Intent(this,MainActivity::class.java)
+                val intent=Intent(this, MainActivity::class.java)
                 intent.putExtra("fragment","cart")
                 startActivity(intent)
             }else{

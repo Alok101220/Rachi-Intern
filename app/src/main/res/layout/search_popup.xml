@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topContainer"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/search_background">
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/search_view"
+            android:layout_weight="1"
+            app:useDrawerArrowDrawable="true"
+            android:focusable="true"
+
+            />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="10dp"
+            android:id="@+id/filterButton"
+            android:visibility="gone"
+            android:src="@drawable/icon_filter"/>
+
+
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/search_popup_nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:visibility="visible"
+        android:layout_below="@+id/topContainer"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/search_popup_searched_result_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Results:"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_popup_searched_result_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_margin="10dp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/search_popup_product_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loading.json"
+                app:lottie_loop="true" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_popup_no_result"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+
+        android:visibility="gone">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="no_result.json"
+            app:lottie_loop="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No result found"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-70dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try searching with new input!"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.rachi_intern
+package com.example.rachi_intern.screen
 
 import HomeFragment
 import android.content.Context
@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import com.example.rachi_intern.R
 import com.example.rachi_intern.roomDb.entities.User
 import com.example.rachi_intern.screen.fragment.CartFragment
 import com.example.rachi_intern.screen.fragment.PREF_FILE_NAME

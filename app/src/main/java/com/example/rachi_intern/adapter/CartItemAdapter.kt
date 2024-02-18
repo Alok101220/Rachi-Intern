@@ -27,7 +27,7 @@ class CartItemAdapter(
     private val quantitiesMap = mutableMapOf<Int, String>()
 
     interface OnRemoveItemClickListener {
-        fun onRemoveItemClick(position: Int)
+        fun onRemoveItemClick(position: Int,quantity: String)
     }
 
     private var removeItemClickListener: OnRemoveItemClickListener? = null
@@ -85,7 +85,8 @@ class CartItemAdapter(
             removeCartItem.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    removeItemClickListener?.onRemoveItemClick(position)
+
+                    removeItemClickListener?.onRemoveItemClick(position,this.selectedQuantity)
                 }
             }
             buyCartItem.setOnClickListener {
@@ -139,7 +140,7 @@ class CartItemAdapter(
                 val selectedOption = options[position]
                 selectedCategory = selectedOption
                 holder.totalPrice.text =
-                    "₹${(item.productPrice.substring(1).toInt() * selectedCategory.toInt()).toString()}"
+                    "₹${(item.productPrice.substring(0).toInt() * selectedCategory.toInt()).toString()}"
 
                 // Update totalAmount
                 updateTotalAmount()
@@ -179,7 +180,7 @@ class CartItemAdapter(
 
     private fun updateTotalAmount() {
         totalAmount = cartItems.sumByDouble {
-            it.productPrice.substring(1).toDouble() * selectedCategory.toInt()
+            it.productPrice.substring(0).toDouble() * selectedCategory.toInt()
         }
     }
 

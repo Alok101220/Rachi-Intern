@@ -10,12 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.example.rachi_intern.OrderActivity
+import com.example.rachi_intern.screen.OrderActivity
 import com.example.rachi_intern.R
 import com.example.rachi_intern.roomDb.entities.User
 import com.example.rachi_intern.screen.AuthenticationScreen
 import com.google.gson.Gson
-import org.w3c.dom.Text
 
 class ProfileFragment : Fragment() {
 
@@ -49,7 +48,7 @@ class ProfileFragment : Fragment() {
         }
 
         order.setOnClickListener {
-            val intent=Intent(requireContext(),OrderActivity::class.java)
+            val intent=Intent(requireContext(), OrderActivity::class.java)
             startActivity(intent)
         }
         profileLogout.setOnClickListener {

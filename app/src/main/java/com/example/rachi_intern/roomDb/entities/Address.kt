@@ -13,4 +13,8 @@ data class Address(
     val pinCode: String,
     val phoneNumber: String,
     val userId: Long
-    )
+    ) {
+    override fun toString(): String {
+        return "Address(addressId=$addressId, locality='$locality', city='$city', state='$state', pinCode='$pinCode', phoneNumber='$phoneNumber', userId=$userId)"
+    }
+}

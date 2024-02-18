@@ -1,8 +1,9 @@
-package com.example.rachi_intern
+package com.example.rachi_intern.screen
 
 import AdminFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.rachi_intern.R
 
 class AdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

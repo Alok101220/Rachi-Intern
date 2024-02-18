@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProductActivity"
+    tools:context=".screen.ViewProductActivity"
 
     android:orientation="vertical">
 
@@ -110,11 +110,9 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:id="@+id/add_to_cart_loading"
                 app:lottie_fileName="loading.json"
-                android:paddingBottom="50dp"
-                android:paddingTop="30dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 android:visibility="gone"/>
@@ -136,11 +134,9 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:id="@+id/buy_product_loading"
                 app:lottie_fileName="loading.json"
-                android:paddingBottom="50dp"
-                android:paddingTop="30dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 android:visibility="gone"/>

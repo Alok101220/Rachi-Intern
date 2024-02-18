@@ -24,6 +24,7 @@ import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
@@ -47,7 +48,7 @@ import com.google.android.material.textfield.TextInputEditText
 class AdminFragment : Fragment() {
 
     private lateinit var addProductPopup: RelativeLayout
-    private lateinit var viewAllProduct: RelativeLayout
+    private lateinit var updateProductPopup: RelativeLayout
     private lateinit var logoutAdmin: RelativeLayout
     private lateinit var sharedPref: SharedPreferences
 
@@ -74,14 +75,14 @@ class AdminFragment : Fragment() {
 
 
         addProductPopup = rootView.findViewById(R.id.addProduct_container)
-        viewAllProduct = rootView.findViewById(R.id.viewAllProduct_container)
+        updateProductPopup=rootView.findViewById(R.id.updateProduct_container)
         logoutAdmin = rootView.findViewById(R.id.logout_admin)
 
         addProductPopup.setOnClickListener {
-            addProductPopup()
+            addProductPopup(null)
         }
-        viewAllProduct.setOnClickListener {
-            viewAllProduct()
+        updateProductPopup.setOnClickListener {
+            updateProductPopup()
         }
 
         logoutAdmin.setOnClickListener {
@@ -101,7 +102,7 @@ class AdminFragment : Fragment() {
 
     }
 
-    private fun addProductPopup() {
+    private fun addProductPopup(product: Product?) {
 
         val inflater = LayoutInflater.from(requireContext())
         val popupView = inflater.inflate(R.layout.add_product_popup, null)
@@ -110,18 +111,15 @@ class AdminFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        // Set background drawable
-//        popupWindow.animationStyle = R.style.PopupAnimation
-// Set outside touch-ability
         popupWindow.isOutsideTouchable = true
-// Set focusability
+
         popupWindow.isFocusable = true
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
         val productName: TextInputEditText = popupView.findViewById(R.id.add_product_name)
         val productCategory: Spinner = popupView.findViewById(R.id.add_product_category)
         val productPrice: TextInputEditText = popupView.findViewById(R.id.add_product_price)
-        val productDescription: TextInputEditText = popupView.findViewById(R.id.add_product_price)
+        val productDescription: TextInputEditText = popupView.findViewById(R.id.add_product_description)
         val productImageSelector: ImageView = popupView.findViewById(R.id.add_product_image)
         productSelectedImage = popupView.findViewById(R.id.add_product_selected_image)
 
@@ -130,6 +128,18 @@ class AdminFragment : Fragment() {
             popupView.findViewById(R.id.add_product_loading)
         var selectedCategory = ""
 
+
+        if (product!=null){
+            productName.setText(product.productName)
+            productPrice.setText(product.productPrice)
+            productDescription.setText(product.productDescription)
+            selectedCategory=product.productCategory
+            selectedImageByte=product.productImage
+            val bitmap = BitmapFactory.decodeByteArray(product.productImage, 0, product.productImage.size)
+
+            productSelectedImage.visibility = View.VISIBLE
+            productSelectedImage.setImageBitmap(bitmap)
+        }
         productImageSelector.setOnClickListener {
             requestStoragePermission()
         }
@@ -181,60 +191,67 @@ class AdminFragment : Fragment() {
 
     }
 
-    private fun viewAllProduct() {
+    private fun updateProductPopup(){
 
         val inflater = LayoutInflater.from(requireContext())
-        val popupView = inflater.inflate(R.layout.view_all_product_popup, null)
+        val popupView = inflater.inflate(R.layout.update_product_popup, null)
         val popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        // Set background drawable
-//        popupWindow.animationStyle = R.style.PopupAnimation
-// Set outside touch-ability
         popupWindow.isOutsideTouchable = true
-// Set focusability
+
         popupWindow.isFocusable = true
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
-        val recyclerView: RecyclerView =
-            popupView.findViewById(R.id.all_product_searched_result_recyclerview)
+        val updateRecyclerView:RecyclerView=popupView.findViewById(R.id.update_product_searched_result_recyclerview)
+        val searchView:SearchView=popupView.findViewById(R.id.search_view)
 
-        val recyclerViewContainer: LinearLayout =
-            popupView.findViewById(R.id.all_product_searched_result_container)
-        val loadingAnimation: LottieAnimationView =
-            popupView.findViewById(R.id.viewAllProduct_loading)
+        val backButton:ImageView=popupView.findViewById(R.id.back_from_update_product)
+        val updateProductList:MutableList<Product> = mutableListOf()
+        val updateProductAdapter=ProductAdapter(updateProductList)
+        updateRecyclerView.layoutManager=GridLayoutManager(requireContext(),2)
+        updateRecyclerView.adapter=updateProductAdapter
 
-        loadingAnimation.visibility = View.VISIBLE
-        recyclerViewContainer.visibility = View.GONE
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query.isNullOrEmpty()){
+                    updateProductList.clear()
+                    updateProductAdapter.updateList(updateProductList,true)
+                }else{
+                    productViewModel.getProductsByName(query.toString()).observe(requireActivity()){products->
+                        if(products.isNullOrEmpty()){
 
-        productViewModel.getAllProducts().observe(viewLifecycleOwner) { products ->
-            loadingAnimation.visibility = View.GONE
-            if (products != null) {
-                recyclerViewContainer.visibility = View.VISIBLE
-                productList.clear()
-                productList.addAll(products)
-
+                        }else{
+                            updateProductList.clear()
+                            updateProductList.addAll(products)
+                            updateProductAdapter.updateList(updateProductList,true)
+                        }
+                    }
+                }
+                return true
             }
-        }
-        productAdapter = ProductAdapter(productList)
-        val layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.adapter = productAdapter
-        recyclerView.layoutManager = layoutManager
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
+
+        updateProductAdapter.setOnItemClickListener(object :ProductAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int, product: Product) {
+
+                addProductPopup(product)
+            }
+
+        })
+
+
 
 
     }
-//
-//    private fun addProductToList() {
-//        productViewModel.getAllProducts().observe(viewLifecycleOwner) { products ->
-//            if (products != null) {
-//                productList.clear()
-//                productList.addAll(products)
-//                productAdapter.updateList(productList,false)
-//            }
-//        }
-//    }
+
 
     private fun requestStoragePermission() {
         if (!isStoragePermissionGranted()) {

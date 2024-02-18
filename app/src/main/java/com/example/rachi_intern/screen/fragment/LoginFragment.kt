@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.rachi_intern.AdminActivity
-import com.example.rachi_intern.MainActivity
+import com.example.rachi_intern.screen.AdminActivity
+import com.example.rachi_intern.screen.MainActivity
 import com.example.rachi_intern.R
 import com.example.rachi_intern.roomDb.entities.User
 import com.example.rachi_intern.factory.UserViewModelFactory
