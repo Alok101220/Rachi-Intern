@@ -42,6 +42,7 @@ class UserViewModel(context: Context) : ViewModel() {
     fun getUserByEmail(email: String): LiveData<User?> {
         return userRepository.getUserByEmail(email)
     }
+
     fun getUserByEmailAndPassword(email: String,password:String):LiveData<User?>{
         return userRepository.getUserByEmailAndPassword(email, password)
     }

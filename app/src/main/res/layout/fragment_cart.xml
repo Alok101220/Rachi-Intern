@@ -51,16 +51,36 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cart_empty"
-        app:lottie_fileName="empty_cart.json"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_repeatMode="restart"
+        android:id="@+id/emptyCart_container"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:visibility="visible"/>
+        android:gravity="center_horizontal">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cart_empty"
+            app:lottie_fileName="empty_cart.json"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_repeatMode="restart"
+            android:visibility="visible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your cart is empty"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please add some product"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
+    </LinearLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

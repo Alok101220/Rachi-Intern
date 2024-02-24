@@ -24,6 +24,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 
+
 class ViewProductActivity : AppCompatActivity() {
 
     private lateinit var mainContainer:NestedScrollView
@@ -36,6 +37,7 @@ class ViewProductActivity : AppCompatActivity() {
     private lateinit var productDescription:TextView
 
     private lateinit var addToCartButton:MaterialButton
+    private lateinit var buyButton: MaterialButton
 
     private lateinit var productViewModel: ProductViewModel
     private lateinit var cartViewModel: CartViewModel
@@ -65,6 +67,7 @@ class ViewProductActivity : AppCompatActivity() {
         productDescription=findViewById(R.id.view_product_description)
 
         addToCartButton=findViewById(R.id.add_to_cart_button)
+        buyButton=findViewById(R.id.buy_product_button)
 
         val productId = intent.getLongExtra("product-id",0)
 
@@ -103,9 +106,7 @@ class ViewProductActivity : AppCompatActivity() {
 
         addToCartButton.setOnClickListener {
             if(isAddedInCart){
-                val intent=Intent(this, MainActivity::class.java)
-                intent.putExtra("fragment","cart")
-                startActivity(intent)
+               moveToCart()
             }else{
                 isAddedInCart=true
                 addToCartButton.text="View cart"
@@ -113,6 +114,22 @@ class ViewProductActivity : AppCompatActivity() {
                 cartViewModel.insertCartItem(cartItem)
             }
         }
+
+        buyButton.setOnClickListener{
+            if(isAddedInCart){
+                moveToCart()
+            }else{
+                isAddedInCart=true
+                addToCartButton.text="View cart"
+                val cartItem=CartItem(0,currentUser!!.userId,productId,0)
+                cartViewModel.insertCartItem(cartItem)
+
+                moveToCart()
+
+            }
+        }
+
+
 
         backButton.setOnClickListener {
             onBackPressed()
@@ -125,5 +142,11 @@ class ViewProductActivity : AppCompatActivity() {
         val gson = Gson()
         if (userJson == null) return null;
         return gson.fromJson(userJson, User::class.java)
+    }
+
+    private fun moveToCart(){
+        val intent=Intent(this, MainActivity::class.java)
+        intent.putExtra("fragment","cart")
+        startActivity(intent)
     }
 }

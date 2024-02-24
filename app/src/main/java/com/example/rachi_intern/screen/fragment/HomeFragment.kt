@@ -93,7 +93,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_search -> {
-                handleFilterClick()
+                handleSearchClick()
                 true
             }
 
@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun handleFilterClick() {
+    private fun handleSearchClick() {
 
         val inflater = LayoutInflater.from(requireContext())
         val popupView = inflater.inflate(R.layout.search_popup, null)
@@ -184,6 +184,15 @@ class HomeFragment : Fragment() {
                 }
                 return true
             }
+        })
+
+        searchAdapter.setOnItemClickListener(object :ProductAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int, product: Product) {
+                val intent = Intent(requireContext(), ViewProductActivity::class.java)
+                intent.putExtra("product-id",searchList[position].productId)
+                startActivity(intent)
+            }
+
         })
 
 

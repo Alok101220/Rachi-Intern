@@ -57,7 +57,7 @@ class OrderSummaryAdapter (private var orderProducts: List<OrderProduct>): Recyc
     fun getTotalPrice(): Double {
         var totalPrice = 0.0
         for (orderProduct in orderProducts) {
-            val productPrice = orderProduct.product.productPrice.substring(1).toDouble()
+            val productPrice = orderProduct.product.productPrice.substring(0).toDouble()
             totalPrice += productPrice * orderProduct.quantity
         }
         return totalPrice

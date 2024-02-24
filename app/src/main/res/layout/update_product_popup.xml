@@ -77,7 +77,44 @@
             android:id="@+id/update_product_searched_result_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:visibility="visible"/>
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_product_no_result"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="no_result.json"
+            app:lottie_loop="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No result found"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-70dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try searching with new input!"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"/>
     </LinearLayout>
 </LinearLayout>

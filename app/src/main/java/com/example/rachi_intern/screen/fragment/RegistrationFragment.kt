@@ -1,6 +1,5 @@
 package com.example.rachi_intern.screen.fragment
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -33,11 +32,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var registrationMainContainer: MaterialCardView
     private lateinit var loadingProgressBar: LottieAnimationView
 
-
     private lateinit var userViewModel: UserViewModel
-
-    private lateinit var sharedPref: SharedPreferences
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,16 +62,17 @@ class RegistrationFragment : Fragment() {
 
         userViewModel.isLoading.observe(requireActivity()) { isLoading ->
             if (isLoading) {
-                registrationMainContainer.alpha=0.2f
-                loadingProgressBar.visibility=View.VISIBLE
+                registrationMainContainer.alpha = 0.2f
+                loadingProgressBar.visibility = View.VISIBLE
             } else {
-                registrationMainContainer.alpha=1.0f
-                loadingProgressBar.visibility=View.GONE
+                registrationMainContainer.alpha = 1.0f
+                loadingProgressBar.visibility = View.GONE
             }
         }
-        userViewModel.isUserInserted.observe(requireActivity()){
 
-            if(it){
+        userViewModel.isUserInserted.observe(requireActivity()) {
+
+            if (it) {
                 val fragmentManager = parentFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.authentication_fragment, LoginFragment())
@@ -85,50 +81,49 @@ class RegistrationFragment : Fragment() {
             }
         }
 
-
         userRegisterButton.setOnClickListener {
             if (userFullName.text.isNullOrEmpty() || userEmail.text.isNullOrEmpty() || userPassword.text.isNullOrEmpty() || confirmPassword.text.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "All field required!", Toast.LENGTH_SHORT).show()
             } else {
-                if(!isValidEmail(userEmail.text.toString())){
+                if (!isValidEmail(userEmail.text.toString())) {
                     Toast.makeText(requireContext(), "Email invalid!", Toast.LENGTH_SHORT)
                         .show()
-                }
-                else if (userPassword.text.toString()!= confirmPassword.text.toString()) {
+                } else if (userPassword.text.toString() != confirmPassword.text.toString()) {
                     Toast.makeText(requireContext(), "Password not matched!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    if(userPassword.text.toString() == "admin"){
-                        val user = User(
-                            0,
-                            userFullName.text.toString(),
-                            userEmail.text.toString(),
-                            userPassword.text.toString(),
-                            true
-                        )
-                        userViewModel.insertUser(user)
-                    }else{
-                        val user = User(
-                            0,
-                            userFullName.text.toString(),
-                            userEmail.text.toString(),
-                            userPassword.text.toString(),
-                        )
-                        userViewModel.insertUser(user)
-                    }
-
-
-
+                    userViewModel.getUserByEmail(userEmail.text.toString())
+                        .observe(requireActivity()) { registeredUser ->
+                            if (registeredUser != null) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "User already exist, try with another email!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                if (userPassword.text.toString() == "admin") {
+                                    val user = User(
+                                        0,
+                                        userFullName.text.toString(),
+                                        userEmail.text.toString(),
+                                        userPassword.text.toString(),
+                                        true
+                                    )
+                                    userViewModel.insertUser(user)
+                                } else {
+                                    val user = User(
+                                        0,
+                                        userFullName.text.toString(),
+                                        userEmail.text.toString(),
+                                        userPassword.text.toString(),
+                                    )
+                                    userViewModel.insertUser(user)
+                                }
+                            }
+                        }
                 }
-
             }
         }
-
-
-
-
-
-
 
         moveToLogin.setOnClickListener {
             val fragmentManager = parentFragmentManager
@@ -138,11 +133,11 @@ class RegistrationFragment : Fragment() {
             fragmentTransaction.commit()
         }
 
-
         return rootView
     }
-    private fun isValidEmail(email: String): Boolean {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
 
+    private fun isValidEmail(email: String): Boolean {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+            .matches()
+    }
 }

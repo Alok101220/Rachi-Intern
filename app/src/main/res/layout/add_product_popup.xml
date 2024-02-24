@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/add_product_name"
             android:background="@drawable/edittext_background"
+            android:maxLines="2"
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
 
         <LinearLayout
@@ -87,6 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_product_price"
+                    android:maxLines="1"
+                    android:inputType="number"
                     android:background="@drawable/edittext_background"
                     style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Custom"/>
             </LinearLayout>

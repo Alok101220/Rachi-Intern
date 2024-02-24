@@ -48,7 +48,7 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
 
     private lateinit var cartMainContainer: NestedScrollView
     private lateinit var cartLoading: LottieAnimationView
-    private lateinit var emptyCart: LottieAnimationView
+    private lateinit var emptyCart: LinearLayout
     private lateinit var cartAddressContainer: LinearLayout
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var addAddress: MaterialButton
@@ -112,7 +112,7 @@ class CartFragment : Fragment(), CartItemAdapter.OnQuantityChangeListener {
 
         cartMainContainer = rootView.findViewById(R.id.cart_main_container)
         cartLoading = rootView.findViewById(R.id.cart_loading)
-        emptyCart=rootView.findViewById(R.id.cart_empty)
+        emptyCart=rootView.findViewById(R.id.emptyCart_container)
         cartAddressContainer = rootView.findViewById(R.id.cart_address_container)
         cartRecyclerView = rootView.findViewById(R.id.cart_recyclerView)
         addAddress = rootView.findViewById(R.id.cart_add_address)

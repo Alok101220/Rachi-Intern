@@ -116,6 +116,7 @@ class AdminFragment : Fragment() {
         popupWindow.isFocusable = true
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
+        val backButton:ImageView = popupView.findViewById(R.id.back_from_add_product)
         val productName: TextInputEditText = popupView.findViewById(R.id.add_product_name)
         val productCategory: Spinner = popupView.findViewById(R.id.add_product_category)
         val productPrice: TextInputEditText = popupView.findViewById(R.id.add_product_price)
@@ -126,6 +127,10 @@ class AdminFragment : Fragment() {
         val addProductButton: MaterialButton = popupView.findViewById(R.id.add_product_add_button)
         val addProductLoading: LottieAnimationView =
             popupView.findViewById(R.id.add_product_loading)
+
+        val removeProductContainer:RelativeLayout = popupView.findViewById(R.id.remove_product_container)
+        val removeProductButton:MaterialButton = popupView.findViewById(R.id.product_remove_button)
+
         var selectedCategory = ""
 
 
@@ -135,6 +140,7 @@ class AdminFragment : Fragment() {
             productDescription.setText(product.productDescription)
             selectedCategory=product.productCategory
             selectedImageByte=product.productImage
+            removeProductContainer.visibility=View.VISIBLE
             val bitmap = BitmapFactory.decodeByteArray(product.productImage, 0, product.productImage.size)
 
             productSelectedImage.visibility = View.VISIBLE
@@ -188,6 +194,12 @@ class AdminFragment : Fragment() {
                 popupWindow.dismiss()
             }
         }
+        removeProductButton.setOnClickListener {
+            productViewModel.deleteProduct(product!!)
+        }
+        backButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
 
     }
 
@@ -207,8 +219,11 @@ class AdminFragment : Fragment() {
 
         val updateRecyclerView:RecyclerView=popupView.findViewById(R.id.update_product_searched_result_recyclerview)
         val searchView:SearchView=popupView.findViewById(R.id.search_view)
-
+        val updateProductSearchedResultContainer:LinearLayout=popupView.findViewById(R.id.update_product_searched_result_container)
         val backButton:ImageView=popupView.findViewById(R.id.back_from_update_product)
+        val noResultFound:LinearLayout=popupView.findViewById(R.id.update_product_no_result)
+
+
         val updateProductList:MutableList<Product> = mutableListOf()
         val updateProductAdapter=ProductAdapter(updateProductList)
         updateRecyclerView.layoutManager=GridLayoutManager(requireContext(),2)
@@ -217,13 +232,19 @@ class AdminFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query.isNullOrEmpty()){
+                    noResultFound.visibility=View.VISIBLE
+                    updateProductSearchedResultContainer.visibility=View.GONE
+
                     updateProductList.clear()
                     updateProductAdapter.updateList(updateProductList,true)
                 }else{
                     productViewModel.getProductsByName(query.toString()).observe(requireActivity()){products->
                         if(products.isNullOrEmpty()){
-
+                            noResultFound.visibility=View.VISIBLE
+                            updateProductSearchedResultContainer.visibility=View.GONE
                         }else{
+                            noResultFound.visibility=View.GONE
+                            updateProductSearchedResultContainer.visibility=View.VISIBLE
                             updateProductList.clear()
                             updateProductList.addAll(products)
                             updateProductAdapter.updateList(updateProductList,true)
@@ -241,11 +262,16 @@ class AdminFragment : Fragment() {
 
         updateProductAdapter.setOnItemClickListener(object :ProductAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, product: Product) {
-
                 addProductPopup(product)
             }
 
         })
+
+
+
+        backButton.setOnClickListener {
+            popupWindow.dismiss()
+        }
 
 
 
